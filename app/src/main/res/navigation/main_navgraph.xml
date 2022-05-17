@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navgraph"
+    app:startDestination="@id/fragment_main_menu">
+
+    <fragment
+        android:id="@+id/fragment_main_menu"
+        android:name="com.example.loginapp.fragments.MainMenu"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu">
+        <action
+            android:id="@+id/action_mainMenu_to_addUserPage"
+            app:destination="@id/addUserPage" />
+        <action
+            android:id="@+id/action_fragment_main_menu_to_userDetailsContainer"
+            app:destination="@id/UserDetailsContainer" />
+    </fragment>
+    <fragment
+        android:id="@+id/addUserPage"
+        android:name="com.example.loginapp.fragments.AddUserPage"
+        android:label="fragment_add_user_page"
+        tools:layout="@layout/fragment_add_user_page" />
+    <fragment
+        android:id="@+id/fragment_user_info"
+        android:name="com.example.loginapp.fragments.UserInfo"
+        android:label="fragment_user_info"
+        tools:layout="@layout/fragment_user_info" >
+        <action
+            android:id="@+id/action_fragment_user_info_to_settings"
+            app:destination="@id/settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/UserDetailsContainer"
+        android:name="com.example.loginapp.fragments.userDetails.UserDetailsContainer"
+        android:label="fragment_user_details_container"
+        tools:layout="@layout/fragment_user_details_container" >
+        <argument
+            android:name="userData"
+            app:argType="com.example.loginapp.models.UserModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/basicInfo"
+        android:name="com.example.loginapp.fragments.userDetails.BasicInfo"
+        android:label="fragment_user_details_basic_info"
+        tools:layout="@layout/fragment_user_details_basic_info" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.loginapp.fragments.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

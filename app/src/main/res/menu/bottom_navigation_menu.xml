@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragment_main_menu"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Main Menu"/>
+    <item
+        android:id="@+id/fragment_user_info"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="User Info"/>
+</menu>
