@@ -1,8 +1,5 @@
 package com.example.loginapp.fragments
 
-import android.app.Activity
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +7,17 @@ import android.view.ViewGroup
 
 
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.FragmentActivity
+
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.loginapp.R
 import com.example.loginapp.activities.MainActivity
-import com.example.loginapp.adapter.UsersAdapter
-import com.example.loginapp.database.AppDatabase
-import com.example.loginapp.repository.UserRepository
+import com.example.loginapp.fragments.dataLists.CoursesList
+
+import com.example.loginapp.fragments.dataLists.UsersList
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
@@ -25,55 +25,67 @@ import com.example.loginapp.repository.UserRepository
  */
 class MainMenu : Fragment() {
 
-    private lateinit var v : View
-    private lateinit var userListRecyclerView : RecyclerView
-    private lateinit var userRepository: UserRepository
-    private lateinit var name: String
-    private lateinit var addUserButton: View
+    lateinit var v: View
+    lateinit var viewPager: ViewPager2
+    lateinit var tabLayout: TabLayout
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
+
         v = inflater.inflate(R.layout.fragment_main_menu, container, false)
-        userListRecyclerView = v.findViewById(R.id.UserListRecyclerView)
-        addUserButton = v.findViewById(R.id.addUserButton)
+
+        tabLayout = v.findViewById(R.id.main_menu_tab_layout)
+
+        viewPager = v.findViewById(R.id.main_menu_view_pager)
 
         return v
     }
 
     override fun onStart() {
         super.onStart()
-        val context = requireContext()
-        val sharedPref: SharedPreferences = context.getSharedPreferences("UserInformation", Context.MODE_PRIVATE)
 
+        viewPager.setAdapter(ViewPagerAdapter(requireActivity()))
         val activity = (activity as MainActivity)
 
         if (activity != null) {
             activity.setTitleText("Main Menu")
         }
+        // viewPager.isUserInputEnabled = false
+        TabLayoutMediator(tabLayout, viewPager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+            when (position) {
+                0 -> tab.text = "Users"
+                1 -> tab.text = "Courses"
+                else -> tab.text = "undefined"
+            }
+        }).attach()
+    }
 
-        if (context != null) {
-            val db = AppDatabase.getAppDataBase(context)
-            if (db != null) {
-                userRepository = UserRepository(db.userDao())
+
+    class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+        override fun createFragment(position: Int): Fragment {
+
+            return when(position){
+                0 -> UsersList()
+                1 -> CoursesList()
+
+                else -> UsersList()
             }
         }
 
-
-        name = sharedPref.getString("UserName","default")!!
-        userListRecyclerView.setHasFixedSize(true)
-        userListRecyclerView.layoutManager  = LinearLayoutManager(context)
-        userListRecyclerView.adapter = UsersAdapter(context, userRepository.getUsers()) { userData ->
-            userData?.let {
-                var detailPageAction = MainMenuDirections.actionFragmentMainMenuToUserDetailsContainer(userData)
-                v.findNavController().navigate(detailPageAction)
-            }
-        }
-        addUserButton.setOnClickListener {
-            var addUserAction = MainMenuDirections.actionMainMenuToAddUserPage()
-            v.findNavController().navigate(addUserAction)
+        override fun getItemCount(): Int {
+            return TAB_COUNT
         }
 
+        companion object {
+            private const val TAB_COUNT = 2
+        }
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
 

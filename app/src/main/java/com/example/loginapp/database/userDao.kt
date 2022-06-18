@@ -6,7 +6,7 @@ import com.example.loginapp.entities.User
 @Dao
 public interface UserDao {
 
-    @Query("SELECT * FROM users ORDER BY id")
+    @Query("SELECT * FROM users ORDER BY users.id")
     fun getAllUsers(): MutableList<User?>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -24,7 +24,7 @@ public interface UserDao {
     @Query("DELETE FROM users WHERE id = :id")
     fun deleteByID(id: Int)
 
-    @Query("SELECT * FROM users WHERE id = :id")
+    @Query("SELECT * FROM users WHERE users.id = :id")
     fun getUserByID(id: Int): User?
 
 }

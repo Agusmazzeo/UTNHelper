@@ -3,23 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navgraph"
-    app:startDestination="@id/fragment_main_menu">
+    app:startDestination="@id/usersList">
 
     <fragment
-        android:id="@+id/fragment_main_menu"
-        android:name="com.example.loginapp.fragments.MainMenu"
-        android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu">
-        <action
-            android:id="@+id/action_mainMenu_to_addUserPage"
-            app:destination="@id/addUserPage" />
-        <action
-            android:id="@+id/action_fragment_main_menu_to_userDetailsContainer"
-            app:destination="@id/UserDetailsContainer" />
-    </fragment>
-    <fragment
         android:id="@+id/addUserPage"
-        android:name="com.example.loginapp.fragments.AddUserPage"
+        android:name="com.example.loginapp.fragments.addDataPages.AddUserPage"
         android:label="fragment_add_user_page"
         tools:layout="@layout/fragment_add_user_page" />
     <fragment
@@ -50,4 +38,29 @@
         android:name="com.example.loginapp.fragments.Settings"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/addCoursePage"
+        android:name="com.example.loginapp.fragments.addDataPages.AddCoursePage"
+        android:label="AddCoursePage" />
+    <fragment
+        android:id="@+id/usersList"
+        android:name="com.example.loginapp.fragments.dataLists.UsersList"
+        android:label="fragment_users_list"
+        tools:layout="@layout/fragment_users_list" >
+        <action
+            android:id="@+id/action_usersList_to_addUserPage"
+            app:destination="@id/addUserPage" />
+        <action
+            android:id="@+id/action_usersList_to_UserDetailsContainer"
+            app:destination="@id/UserDetailsContainer" />
+    </fragment>
+    <fragment
+        android:id="@+id/coursesList"
+        android:name="com.example.loginapp.fragments.dataLists.CoursesList"
+        android:label="fragment_courses_list"
+        tools:layout="@layout/fragment_courses_list" >
+        <action
+            android:id="@+id/action_coursesList_to_addCoursePage"
+            app:destination="@id/addCoursePage" />
+    </fragment>
 </navigation>

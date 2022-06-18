@@ -19,13 +19,13 @@ class UserRepository (private val userDao: UserDao){
         return result
     }
 
-    fun createUser(name: String, email: String, phone: String){
-        var user: User = User(name = name, email = email, phone = phone)
+    fun createUser(name: String, email: String, phone: String, courseId: Int){
+        var user: User = User(name = name, email = email, phone = phone, courseId = courseId)
         userDao.addUser(user)
     }
 
-    fun updateUser(id: Int, name: String, email: String, phone: String){
-        var user: User = User(id = id, name = name, email = email, phone = phone)
+    fun updateUser(id: Int, name: String, email: String, phone: String, courseId: Int){
+        var user: User = User(id = id, name = name, email = email, phone = phone, courseId = courseId)
         userDao.updateUser(user)
     }
 

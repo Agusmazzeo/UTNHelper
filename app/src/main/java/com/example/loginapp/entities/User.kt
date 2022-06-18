@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
-class User (  id : Int = 0, name : String, email: String, phone: String ) {
+class User (  id : Int = 0, name : String, email: String, phone: String, courseId: Int) {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -20,6 +20,9 @@ class User (  id : Int = 0, name : String, email: String, phone: String ) {
     @ColumnInfo(name = "phone")
     var phone : String
 
+    @ColumnInfo(name = "courseId")
+    var courseId: Int
+
 
 
     init {
@@ -27,6 +30,7 @@ class User (  id : Int = 0, name : String, email: String, phone: String ) {
         this.name = name
         this.email = email
         this.phone = phone
+        this.courseId = courseId
 
     }
 }

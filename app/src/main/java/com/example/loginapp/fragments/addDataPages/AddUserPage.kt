@@ -1,4 +1,4 @@
-package com.example.loginapp.fragments
+package com.example.loginapp.fragments.addDataPages
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.loginapp.R
 import com.example.loginapp.activities.MainActivity
 import com.example.loginapp.database.AppDatabase
 import com.example.loginapp.repository.UserRepository
+import com.example.loginapp.viewmodels.addDataPages.addUserViewModel
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
@@ -19,6 +21,7 @@ import com.example.loginapp.repository.UserRepository
  */
 class AddUserPage : Fragment() {
     private lateinit var v : View
+    private val viewModel: addUserViewModel by viewModels()
     private lateinit var new_name_view : EditText
     private lateinit var new_email_view : EditText
     private lateinit var new_phone_view: EditText
@@ -46,16 +49,9 @@ class AddUserPage : Fragment() {
         super.onStart()
 
         val activity = (activity as MainActivity)
-        val context = getContext()
 
         if (activity != null) {
             activity.setTitleText("Add User")
-        }
-        if (context != null) {
-            val db = AppDatabase.getAppDataBase(context)
-            if (db != null) {
-                userRepository = UserRepository(db.userDao())
-            }
         }
 
         reset_button.setOnClickListener {
@@ -70,9 +66,9 @@ class AddUserPage : Fragment() {
             var new_name = new_name_view.text.toString()
             var new_email = new_email_view.text.toString()
             var new_phone = new_phone_view.text.toString()
+            var assigned_course = 0
 
-            if(new_name != "" && (new_email != "" || new_phone != "")){
-                userRepository.createUser(new_name, new_email, new_phone)
+            if(viewModel.createUser(new_name, new_email, new_phone, assigned_course)){
                 findNavController().popBackStack()
             }
 

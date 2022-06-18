@@ -7,19 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.loginapp.R
-import com.example.loginapp.activities.MainActivity
 import com.example.loginapp.database.AppDatabase
 import com.example.loginapp.models.UserModel
 import com.example.loginapp.repository.UserRepository
+import com.example.loginapp.viewmodels.userDetails.BasicInfoViewModel
 
 class BasicInfo(user: UserModel) : Fragment() {
 
     companion object {
         fun newInstance(user: UserModel) = BasicInfo(user)
     }
+    private val viewModel: BasicInfoViewModel by viewModels()
     private lateinit var v: View
     var user : UserModel = user
     lateinit var name: EditText
@@ -43,23 +44,12 @@ class BasicInfo(user: UserModel) : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val context = getContext()
-
-        if (context != null) {
-            val db = AppDatabase.getAppDataBase(context)
-            if (db != null) {
-                userRepository = UserRepository(db.userDao())
-            }
-        }
         name.setText(user.name.toString())
         email.setText(user.email.toString())
         phone.setText(user.phone.toString())
 
             saveButton.setOnClickListener {
-                var new_name = name.text.toString()
-                var new_email = email.text.toString()
-                var new_phone = phone.text.toString()
-                userRepository.updateUser(user.id, new_name, new_email, new_phone)
+                viewModel.updateUser(user);
                 findNavController().popBackStack()
             }
     }

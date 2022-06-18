@@ -95,7 +95,7 @@
             app:cardCornerRadius="200dp">
 
             <ImageView
-                android:id="@+id/new_user_image_view"
+                android:id="@+id/user_info_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"

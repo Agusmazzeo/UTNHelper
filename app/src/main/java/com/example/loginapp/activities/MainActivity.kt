@@ -1,17 +1,17 @@
 package com.example.loginapp.activities
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.loginapp.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var textColor : String
     private lateinit var backgroundColor : String
+    val REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,4 +52,12 @@ class MainActivity : AppCompatActivity() {
             appTitleView.setTitleTextColor(Color.parseColor(textColor))
         }
     }
+
+
+    public fun openGalleryForImage(activityResult: ActivityResultLauncher<Intent>, context: Context) {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        activityResult.launch(intent)
+    }
+
 }

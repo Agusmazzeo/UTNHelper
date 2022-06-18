@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -26,6 +27,7 @@ class UserInfo : Fragment() {
     private lateinit var phone_view: EditText
     private lateinit var save_button: Button
     private lateinit var settings_button: Button
+    private lateinit var image_view: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +41,7 @@ class UserInfo : Fragment() {
         name_view = v.findViewById(R.id.user_name)
         email_view = v.findViewById(R.id.user_email)
         phone_view = v.findViewById(R.id.user_phone)
+        image_view = v.findViewById(R.id.user_info_image_view)
         return v
 
     }
@@ -58,6 +61,10 @@ class UserInfo : Fragment() {
         name_view.setText(sharedPref.getString("UserName","")!!)
         email_view.setText(sharedPref.getString("UserEmail","")!!)
         phone_view.setText(sharedPref.getString("UserPhone","")!!)
+
+        image_view.setOnClickListener{
+
+        }
 
         save_button.setOnClickListener{
             var new_name = name_view.text.toString()

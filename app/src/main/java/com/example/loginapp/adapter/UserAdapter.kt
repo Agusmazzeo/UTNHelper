@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
@@ -72,6 +71,7 @@ class UsersAdapter (
                         userRepository.deleteUserByID(user.id)
                         userList.removeAt(position)
                         notifyItemRemoved(position)
+                        notifyItemRangeChanged(position,userList.size)
                     }
                 }.show()
             }
