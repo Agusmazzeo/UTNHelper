@@ -12,17 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.loginapp.R
 import com.example.loginapp.activities.MainActivity
 import com.example.loginapp.adapter.UsersAdapter
 import com.example.loginapp.models.UserModel
-import com.example.loginapp.repository.UserRepository
 import com.example.loginapp.viewmodels.dataLists.UsersListViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
@@ -71,12 +65,11 @@ class UsersList : Fragment() {
             var addUserAction = UsersListDirections.actionUsersListToAddUserPage()
             v.findNavController().navigate(addUserAction)
         }
-
         viewModel.usersList.observe(viewLifecycleOwner, Observer { result ->
             usersList.clear()
             usersList.addAll(result)
             userListReciclerViewAdapter.notifyDataSetChanged();
         })
-
+        viewModel.getUsers()
     }
 }

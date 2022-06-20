@@ -18,15 +18,6 @@ class addCourseViewModel (app: Application) : AndroidViewModel(app){
     private lateinit var image_uri: Uri
     var course_image_uri = MutableLiveData<Uri>()
 
-    init {
-
-        if (context != null) {
-            val db = AppDatabase.getAppDataBase(context)
-            if (db != null) {
-                courseRepository = CourseRepository(db.coursesDao())
-            }
-        }
-    }
 
     fun loadCourseImage(result: ActivityResult){
         if (result.resultCode == Activity.RESULT_OK) {
@@ -40,10 +31,10 @@ class addCourseViewModel (app: Application) : AndroidViewModel(app){
     }
 
     fun createCourse(new_name: String, callback: ()->Unit){
-        if(new_name != "" && course_image_uri.value != null) {
-            courseRepository.createCourse(new_name, image_uri.toString())
-            callback()
-        }
+//        if(new_name != "" && course_image_uri.value != null) {
+//            courseRepository.createCourse(new_name, image_uri.toString())
+//            callback()
+//        }
     }
 
     fun selectCourseImage(activityMethod: Intent, activityResult: Intent){

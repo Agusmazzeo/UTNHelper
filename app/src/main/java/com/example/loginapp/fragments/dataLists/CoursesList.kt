@@ -7,24 +7,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginapp.R
 import com.example.loginapp.activities.MainActivity
 import com.example.loginapp.adapter.CourseAdapter
-import com.example.loginapp.database.AppDatabase
-import com.example.loginapp.entities.Course
+import com.example.loginapp.models.CourseModel
 import com.example.loginapp.repository.CourseRepository
+import com.example.loginapp.viewmodels.dataLists.CoursesListViewModel
 
-/**
- * An example full-screen fragment that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 class CoursesList : Fragment() {
     private lateinit var v : View
-    private lateinit var coursesList: MutableList<Course?>
+    private val viewModel: CoursesListViewModel by viewModels()
+    private var coursesList: MutableList<CourseModel?> = mutableListOf()
     private lateinit var courseListRecyclerView : RecyclerView
+    private lateinit var courseListRecyclerViewAdapter: CourseAdapter
     private lateinit var courseRepository: CourseRepository
     private lateinit var name: String
     private lateinit var addCourseButton: View
@@ -48,30 +48,29 @@ class CoursesList : Fragment() {
             activity.setTitleText("Courses List")
         }
 
-
-        if (context != null) {
-            val db = AppDatabase.getAppDataBase(context)
-            if (db != null) {
-                courseRepository = CourseRepository(db.coursesDao())
-            }
-        }
-
-
         name = sharedPref.getString("UserName","default")!!
-        coursesList = courseRepository.getCourses()
+
         courseListRecyclerView.setHasFixedSize(true)
         courseListRecyclerView.layoutManager  = LinearLayoutManager(context)
-        courseListRecyclerView.adapter = CourseAdapter(context, coursesList) { courseData ->
+        courseListRecyclerViewAdapter = CourseAdapter(context, coursesList) { courseData ->
             courseData?.let {
 //                var detailPageAction = MainMenuDirections.actionFragmentMainMenuToAddCoursePage(courseData)
 //                v.findNavController().navigate(detailPageAction)
             }
         }
+        courseListRecyclerView.adapter = courseListRecyclerViewAdapter
 
         addCourseButton.setOnClickListener {
             var addCourseAction = CoursesListDirections.actionCoursesListToAddCoursePage()
             v.findNavController().navigate(addCourseAction)
         }
+
+        viewModel.coursesList.observe(viewLifecycleOwner, Observer { result ->
+            coursesList.clear()
+            coursesList.addAll(result)
+            courseListRecyclerViewAdapter.notifyDataSetChanged();
+        })
+        viewModel.getCourses()
 
     }
 

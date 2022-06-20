@@ -1,7 +1,7 @@
 package com.example.loginapp.repository
 
-import kotlinx.coroutines.*
-import com.example.loginapp.database.firebase.UserDaoFB
+import android.util.Log
+import com.example.loginapp.entities.UserDoc
 import com.example.loginapp.models.UserModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,6 +24,19 @@ class UserRepository (){
             ))
         }
         return usersList
+    }
+
+    suspend fun createUser(name: String, email: String, phone: String, courseId: Int): Boolean{
+        var user = UserDoc(name, email, phone, courseId)
+        var result = false
+        try {
+            var query = db.collection("users").add(user)
+            query.await()
+            result = true
+        }catch (e: Exception) {
+            Log.d("Create User action: ", e.message!!)
+        }
+        return result
     }
 
 //    fun createUser(name: String, email: String, phone: String, courseId: Int){

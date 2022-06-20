@@ -20,7 +20,7 @@ import com.google.android.material.textview.MaterialTextView
 
 class CourseAdapter(
 var context: Context?,
-var courseList : MutableList <Course?>,
+var courseList : MutableList <CourseModel?>,
 var onClick : (CourseModel) -> Unit
 ) : RecyclerView.Adapter<CourseAdapter.CourseHolder>() {
 
@@ -59,15 +59,14 @@ var onClick : (CourseModel) -> Unit
 
     override fun onBindViewHolder(holder: CourseHolder, position: Int) {
         if(courseList != null && courseList.size != 0){
-            var course: Course? = courseList[position]
+            var course: CourseModel? = courseList[position]
             course?.let {
                 holder.setTitle(it.name)
                 holder.setCourseImage(it.icon)
             }
             holder.getCardView().setOnClickListener {
                 course?.let {
-                    var courseData = CourseModel(course.id, course.name)
-                    onClick(courseData)
+                    onClick(course)
                 }
             }
             holder.getDeleteButtonView().setOnClickListener {
@@ -77,16 +76,16 @@ var onClick : (CourseModel) -> Unit
                         .setNegativeButton("Cancel") { dialog, which ->
                             // Respond to negative button press
                         }.setPositiveButton("Delete") { dialog, which ->
-                            val db = AppDatabase.getAppDataBase(context!!)
-                            if (db != null) {
-                                courseRepository = CourseRepository(db.coursesDao())
-                            }
-                            course?.let {
-                                courseRepository.deleteCourseByID(course.id)
-                                courseList.removeAt(position)
-                                notifyItemRemoved(position)
-                                notifyItemRangeChanged(position,courseList.size)
-                            }
+//                            val db = AppDatabase.getAppDataBase(context!!)
+//                            if (db != null) {
+//                                courseRepository = CourseRepository(db.coursesDao())
+//                            }
+//                            course?.let {
+//                                courseRepository.deleteCourseByID(course.id)
+//                                courseList.removeAt(position)
+//                                notifyItemRemoved(position)
+//                                notifyItemRangeChanged(position,courseList.size)
+//                            }
                         }.show()
                 }
 

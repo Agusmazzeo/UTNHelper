@@ -13,6 +13,7 @@ import com.example.loginapp.R
 import com.example.loginapp.activities.MainActivity
 import com.example.loginapp.repository.UserRepository
 import com.example.loginapp.viewmodels.addDataPages.AddUserViewModel
+import com.example.loginapp.viewmodels.dataLists.UsersListViewModel
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
@@ -26,7 +27,6 @@ class AddUserPage : Fragment() {
     private lateinit var new_phone_view: EditText
     private lateinit var reset_button: Button
     private lateinit var submit_button: Button
-    private lateinit var userRepository: UserRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,

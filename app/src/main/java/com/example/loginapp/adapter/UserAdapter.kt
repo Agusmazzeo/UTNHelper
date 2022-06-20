@@ -9,9 +9,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import com.example.loginapp.R
-import com.example.loginapp.database.AppDatabase
-import com.example.loginapp.database.firebase.UserDaoFB
-import com.example.loginapp.entities.User
 import com.example.loginapp.models.UserModel
 import com.example.loginapp.repository.UserRepository
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

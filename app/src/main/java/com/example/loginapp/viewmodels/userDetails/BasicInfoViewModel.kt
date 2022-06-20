@@ -2,8 +2,6 @@ package com.example.loginapp.viewmodels.userDetails
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.loginapp.database.AppDatabase
-import com.example.loginapp.database.firebase.UserDaoFB
 import com.example.loginapp.models.UserModel
 import com.example.loginapp.repository.UserRepository
 
