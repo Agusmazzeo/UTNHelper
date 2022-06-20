@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import com.example.loginapp.R
 import com.example.loginapp.database.AppDatabase
+import com.example.loginapp.database.firebase.UserDaoFB
 import com.example.loginapp.entities.User
 import com.example.loginapp.models.UserModel
 import com.example.loginapp.repository.UserRepository
@@ -17,7 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class UsersAdapter (
     var context: Context?,
-    var userList : MutableList <User?>,
+    var userList : MutableList <UserModel?>,
     var onClick : (UserModel) -> Unit
 ) : RecyclerView.Adapter<UsersAdapter.UserHolder>() {
 
@@ -48,7 +49,7 @@ class UsersAdapter (
     }
 
     override fun onBindViewHolder(holder: UserHolder, position: Int) {
-        var user: User? = userList[position]
+        var user: UserModel? = userList[position]
         user?.let { holder.setTitle(it.name) }
         holder.getCardView().setOnClickListener {
             user?.let{
@@ -63,15 +64,16 @@ class UsersAdapter (
                 .setNegativeButton("Cancel") { dialog, which ->
                 // Respond to negative button press
                 }.setPositiveButton("Delete") { dialog, which ->
-                    val db = AppDatabase.getAppDataBase(context!!)
-                    if (db != null) {
-                        userRepository = UserRepository(db.userDao())
-                    }
+//                        userRepository = UserRepository(UserDaoFB())
+//                    val db = AppDatabase.getAppDataBase(context!!)
+//                    if (db != null) {
+//                        userRepository = UserRepository(db.userDao())
+//                    }
                     user?.let{
-                        userRepository.deleteUserByID(user.id)
-                        userList.removeAt(position)
-                        notifyItemRemoved(position)
-                        notifyItemRangeChanged(position,userList.size)
+//                        userRepository.deleteUserByID(user.id)
+//                        userList.removeAt(position)
+//                        notifyItemRemoved(position)
+//                        notifyItemRangeChanged(position,userList.size)
                     }
                 }.show()
             }

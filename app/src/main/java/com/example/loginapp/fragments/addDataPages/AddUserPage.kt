@@ -11,9 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.loginapp.R
 import com.example.loginapp.activities.MainActivity
-import com.example.loginapp.database.AppDatabase
 import com.example.loginapp.repository.UserRepository
-import com.example.loginapp.viewmodels.addDataPages.addUserViewModel
+import com.example.loginapp.viewmodels.addDataPages.AddUserViewModel
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
@@ -21,7 +20,7 @@ import com.example.loginapp.viewmodels.addDataPages.addUserViewModel
  */
 class AddUserPage : Fragment() {
     private lateinit var v : View
-    private val viewModel: addUserViewModel by viewModels()
+    private val viewModel: AddUserViewModel by viewModels()
     private lateinit var new_name_view : EditText
     private lateinit var new_email_view : EditText
     private lateinit var new_phone_view: EditText
@@ -68,7 +67,7 @@ class AddUserPage : Fragment() {
             var new_phone = new_phone_view.text.toString()
             var assigned_course = 0
 
-            if(viewModel.createUser(new_name, new_email, new_phone, assigned_course)){
+            viewModel.createUser(new_name, new_email, new_phone, assigned_course){
                 findNavController().popBackStack()
             }
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "95506186277",
+    "project_id": "utnhelper",
+    "storage_bucket": "utnhelper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95506186277:android:58ed06c3fff893af4fbfcc",
+        "android_client_info": {
+          "package_name": "com.example.loginapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95506186277-vsuuj12ekg5rpncbatenh0v9l5mj9rpq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF6ONKTHyBwhuz-mlw4XV3SM5I79Skrvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95506186277-vsuuj12ekg5rpncbatenh0v9l5mj9rpq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
