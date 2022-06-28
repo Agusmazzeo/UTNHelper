@@ -10,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.loginapp.R
+import com.example.loginapp.utils.AuthHandler
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var textColor : String
     private lateinit var backgroundColor : String
+    private var auth: FirebaseAuth = Firebase.auth
     val REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +38,15 @@ class MainActivity : AppCompatActivity() {
         bottonNavigationView = findViewById(R.id.bottom_navigation)
         setUpColors(sharedPref)
         NavigationUI.setupWithNavController(bottonNavigationView, navHostFragment.navController)
+    }
+
+    public override fun onStart() {
+        super.onStart()
+            AuthHandler().checkUserIsAuthenticatedOrCall{
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     public fun setTitleText(title: String){

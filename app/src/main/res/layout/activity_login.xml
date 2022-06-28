@@ -9,6 +9,20 @@
     android:theme="@style/ThemeOverlay.LoginApp.FullscreenContainer"
     tools:context=".activities.LoginActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/CreateButton"
+        android:layout_width="140dp"
+        android:layout_height="56dp"
+        android:backgroundTint="#000000"
+        android:text="Create User"
+        android:textColor="#FBFBFB"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/LoginButton"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintVertical_bias="0.593" />
+
     <EditText
         android:id="@+id/editTextName"
         android:layout_width="match_parent"
@@ -39,12 +53,16 @@
         android:id="@+id/LoginButton"
         android:layout_width="152dp"
         android:layout_height="55dp"
+        android:backgroundTint="#020202"
+        android:shadowColor="#FFFFFF"
         android:text="Login"
-        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/CreateButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintVertical_bias="0.595" />
 
     <ImageView
         android:id="@+id/imageView6"

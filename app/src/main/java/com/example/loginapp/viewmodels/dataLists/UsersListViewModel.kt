@@ -16,7 +16,7 @@ class UsersListViewModel(app: Application) : AndroidViewModel(app) {
     fun getUsers(){
         usersList.value?.clear()
         viewModelScope.launch {
-            usersList.value = async {userRepository.getUsers()}.await()
+            usersList.value = userRepository.getUsers()
         }
     }
 }
