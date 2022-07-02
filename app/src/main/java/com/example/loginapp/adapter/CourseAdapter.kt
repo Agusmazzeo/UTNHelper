@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.loginapp.R
@@ -15,8 +16,14 @@ import com.example.loginapp.database.AppDatabase
 import com.example.loginapp.entities.Course
 import com.example.loginapp.models.CourseModel
 import com.example.loginapp.repository.CourseRepository
+import com.example.loginapp.utils.StorageHandler
+import com.example.loginapp.viewmodels.adapter.CourseAdapterViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textview.MaterialTextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class CourseAdapter(
 var context: Context?,
@@ -24,7 +31,8 @@ var courseList : MutableList <CourseModel?>,
 var onClick : (CourseModel) -> Unit
 ) : RecyclerView.Adapter<CourseAdapter.CourseHolder>() {
 
-    private lateinit var courseRepository: CourseRepository
+    private var courseRepository = CourseRepository()
+    private var storageHandler = StorageHandler()
 
     class CourseHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View
@@ -73,19 +81,13 @@ var onClick : (CourseModel) -> Unit
                 if (context != null) {
                     MaterialAlertDialogBuilder(context!!)
                         .setTitle("Delete Course?")
-                        .setNegativeButton("Cancel") { dialog, which ->
+                        .setNegativeButton("Cancel") { _, _ ->
                             // Respond to negative button press
-                        }.setPositiveButton("Delete") { dialog, which ->
-//                            val db = AppDatabase.getAppDataBase(context!!)
-//                            if (db != null) {
-//                                courseRepository = CourseRepository(db.coursesDao())
-//                            }
-//                            course?.let {
-//                                courseRepository.deleteCourseByID(course.id)
-//                                courseList.removeAt(position)
-//                                notifyItemRemoved(position)
-//                                notifyItemRangeChanged(position,courseList.size)
-//                            }
+                        }.setPositiveButton("Delete") { _, _ ->
+                            deleteAction(course)
+                            courseList.removeAt(position)
+                            notifyItemRemoved(position)
+                            notifyItemRangeChanged(position,courseList.size)
                         }.show()
                 }
 
@@ -96,5 +98,17 @@ var onClick : (CourseModel) -> Unit
 
     override fun getItemCount(): Int {
         return courseList.size
+    }
+
+    private fun deleteAction(course: CourseModel?){
+        CoroutineScope(Dispatchers.IO).launch {
+            var deleteImageResult = async { course?.let { storageHandler.deleteCourseImage(it.icon) } }
+            var deleteResult = async { course?.let { it1 ->
+                courseRepository.deleteCourseByID(
+                    it1.id)
+            } }
+            deleteImageResult.await()
+            deleteResult.await()
+        }
     }
 }

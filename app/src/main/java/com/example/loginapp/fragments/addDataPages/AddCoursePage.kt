@@ -18,7 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.loginapp.R
 import com.example.loginapp.activities.MainActivity
-import com.example.loginapp.viewmodels.addDataPages.addCourseViewModel
+import com.example.loginapp.viewmodels.addDataPages.AddCourseViewModel
 
 
 /**
@@ -27,9 +27,10 @@ import com.example.loginapp.viewmodels.addDataPages.addCourseViewModel
  */
 class AddCoursePage : Fragment() {
     private lateinit var v : View
-    private val viewModel: addCourseViewModel by viewModels()
+    private val viewModel: AddCourseViewModel by viewModels()
     private lateinit var course_image: ImageView
-    private lateinit var new_name_view : EditText
+    private lateinit var nameView : EditText
+    private lateinit var codeView : EditText
     private lateinit var reset_button: Button
     private lateinit var submit_button: Button
     private lateinit var activityResult: ActivityResultLauncher<Intent>
@@ -44,7 +45,8 @@ class AddCoursePage : Fragment() {
         course_image = v.findViewById(R.id.course_image_view)
         reset_button = v.findViewById(R.id.btn_reset)
         submit_button = v.findViewById(R.id.btn_submit)
-        new_name_view = v.findViewById(R.id.new_course_name)
+        nameView = v.findViewById(R.id.new_course_name)
+        codeView = v.findViewById(R.id.new_course_code)
 
         activityResult = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()) { result ->
@@ -56,7 +58,7 @@ class AddCoursePage : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val context = getContext()
+        val context = context
 
         val activity = (activity as MainActivity)
 
@@ -64,20 +66,20 @@ class AddCoursePage : Fragment() {
             activity.setTitleText("Add Course")
         }
 
-        viewModel.course_image_uri.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.courseImageUri.observe(viewLifecycleOwner, Observer { result ->
             Glide.with(context!!).load(result).into(course_image)
         })
 
         reset_button.setOnClickListener {
             // clearing user_name and password edit text views on reset button click
-            new_name_view.setText("")
+            nameView.setText("")
         }
 
         // set on-click listener
         submit_button.setOnClickListener {
-            var new_name = new_name_view.text.toString()
-
-            viewModel.createCourse(new_name){
+            var name = nameView.text.toString()
+            var code = codeView.text.toString()
+            viewModel.createCourse(name, code){
                 findNavController().popBackStack()
             }
 
