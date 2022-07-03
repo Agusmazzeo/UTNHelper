@@ -11,15 +11,21 @@ class StorageHandler {
     private var storage = Firebase.storage
     private var storageRef = storage.reference
 
-    suspend fun saveUserImage(userId: String, image: Uri){
-        var filename = "User/Images/${userId}_${image.lastPathSegment}"
-        var uploadTask = storageRef.child(filename).putFile(image)
-        uploadTask.await()
+    suspend fun saveUserImage(userName: String, image: Uri):Uri?{
+        try {
+            var filename = "User/Images/${userName}_${image.lastPathSegment}"
+            var uploadTask = storageRef.child(filename).putFile(image)
+            var result = uploadTask.await()
+            return storageRef.child(filename).downloadUrl.await()
+        }catch (e: Exception){
+            Log.d("Error during Course Image creation: ", e.message!!)
+            return null
+        }
     }
 
-    suspend fun saveCourseImage(courseId: String, image: Uri):Uri?{
+    suspend fun saveCourseImage(courseName: String, image: Uri):Uri?{
         try {
-            var filename = "Course/Images/${courseId}_${image.lastPathSegment}"
+            var filename = "Course/Images/${courseName}_${image.lastPathSegment}"
             var uploadTask = storageRef.child(filename).putFile(image)
             var result = uploadTask.await()
             return storageRef.child(filename).downloadUrl.await()

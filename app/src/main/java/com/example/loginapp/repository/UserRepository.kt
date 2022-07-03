@@ -26,8 +26,8 @@ class UserRepository (){
         return usersList
     }
 
-    suspend fun createUser(name: String, email: String, phone: String, courseId: Int): Boolean{
-        var user = UserDoc(name, email, phone, courseId)
+    suspend fun createUser(name: String, email: String, phone: String, role: String, icon: String): Boolean{
+        var user = UserDoc(name, email, phone, role, icon)
         var result = false
         try {
             var query = db.collection("users").add(user)

@@ -4,5 +4,6 @@ data class UserDoc (
     val name : String,
     val email: String,
     val phone: String,
-    val courseId: Int
+    val role: String,
+    val icon: String
     )

@@ -6,11 +6,6 @@
     app:startDestination="@id/usersList">
 
     <fragment
-        android:id="@+id/addUserPage"
-        android:name="com.example.loginapp.fragments.addDataPages.AddUserPage"
-        android:label="fragment_add_user_page"
-        tools:layout="@layout/fragment_add_user_page" />
-    <fragment
         android:id="@+id/fragment_user_info"
         android:name="com.example.loginapp.fragments.UserInfo"
         android:label="fragment_user_info"
@@ -47,9 +42,6 @@
         android:name="com.example.loginapp.fragments.dataLists.UsersList"
         android:label="fragment_users_list"
         tools:layout="@layout/fragment_users_list" >
-        <action
-            android:id="@+id/action_usersList_to_addUserPage"
-            app:destination="@id/addUserPage" />
         <action
             android:id="@+id/action_usersList_to_UserDetailsContainer"
             app:destination="@id/UserDetailsContainer" />

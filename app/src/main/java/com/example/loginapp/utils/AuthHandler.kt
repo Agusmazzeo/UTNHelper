@@ -2,6 +2,7 @@ package com.example.loginapp.utils
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
@@ -9,10 +10,13 @@ import kotlinx.coroutines.tasks.await
 class AuthHandler {
     private var auth: FirebaseAuth = Firebase.auth
 
-    fun checkUserIsAuthenticatedOrCall(callback: ()->Unit){
+    fun checkUserIsAuthenticated(onSuccessCallback:(FirebaseUser)->Unit,onErrorCallback: ()->Unit){
         val currentUser = auth.currentUser
         if(currentUser == null){
-            callback()
+            onErrorCallback()
+        }
+        else{
+            onSuccessCallback(currentUser)
         }
     }
 

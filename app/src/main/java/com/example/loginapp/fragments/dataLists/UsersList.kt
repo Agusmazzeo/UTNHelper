@@ -61,10 +61,10 @@ class UsersList : Fragment() {
             }
         }
         userListRecyclerView.adapter = userListReciclerViewAdapter
-        addUserButton.setOnClickListener {
-            var addUserAction = UsersListDirections.actionUsersListToAddUserPage()
-            v.findNavController().navigate(addUserAction)
-        }
+//        addUserButton.setOnClickListener {
+//            var addUserAction = UsersListDirections.actionUsersListToAddUserPage()
+//            v.findNavController().navigate(addUserAction)
+//        }
         viewModel.usersList.observe(viewLifecycleOwner, Observer { result ->
             usersList.clear()
             usersList.addAll(result)
