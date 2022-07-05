@@ -4,7 +4,15 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class CourseModel (var id : String, var name : String, var code : String, var icon : String):
+class CourseModel (
+    var id : String,
+    var name : String,
+    var code : String,
+    var icon : String,
+    var owner: String,
+    var enrollments: MutableList<String>,
+    var pendingEnrollments: MutableList<String>
+    ):
     Parcelable {
 
     init {
@@ -12,5 +20,8 @@ class CourseModel (var id : String, var name : String, var code : String, var ic
         this.name = name
         this.code = code
         this.icon = icon
+        this.owner = owner
+        this.enrollments = enrollments
+        this.pendingEnrollments = pendingEnrollments
     }
 }

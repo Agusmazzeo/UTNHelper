@@ -22,3 +22,14 @@ class UserModel (
         this.icon = icon
     }
 }
+
+@Parcelize
+class EnrollmentModel(
+    var user: UserModel,
+    var course: CourseModel
+): Parcelable{
+    init{
+        this.user = user
+        this.course = course
+    }
+}

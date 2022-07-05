@@ -54,5 +54,16 @@
         <action
             android:id="@+id/action_coursesList_to_addCoursePage"
             app:destination="@id/addCoursePage" />
+        <action
+            android:id="@+id/action_coursesList_to_courseDetailsContainer"
+            app:destination="@id/courseDetailsContainer" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseDetailsContainer"
+        android:name="com.example.loginapp.fragments.courseDetails.CourseDetailsContainer"
+        android:label="CourseDetailsContainer" >
+        <argument
+            android:name="courseData"
+            app:argType="com.example.loginapp.models.CourseModel" />
     </fragment>
 </navigation>

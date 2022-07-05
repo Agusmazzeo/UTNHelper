@@ -10,7 +10,6 @@ import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.loginapp.R
-import com.example.loginapp.database.AppDatabase
 import com.example.loginapp.models.UserModel
 import com.example.loginapp.repository.UserRepository
 import com.example.loginapp.viewmodels.userDetails.BasicInfoViewModel
@@ -34,9 +33,9 @@ class BasicInfo(user: UserModel) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_user_details_basic_info, container, false)
-        name = v.findViewById(R.id.user_detail_name)
-        email = v.findViewById(R.id.user_detail_email)
-        phone = v.findViewById(R.id.user_detail_phone)
+        name = v.findViewById(R.id.course_detail_name)
+        email = v.findViewById(R.id.course_detail_code)
+        phone = v.findViewById(R.id.course_detail_owner)
         saveButton = v.findViewById(R.id.user_details_save_button)
         return v
     }

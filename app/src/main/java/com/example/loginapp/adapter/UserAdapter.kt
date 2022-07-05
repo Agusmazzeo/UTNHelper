@@ -5,7 +5,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +13,6 @@ import com.google.android.material.textview.MaterialTextView
 import com.example.loginapp.R
 import com.example.loginapp.models.UserModel
 import com.example.loginapp.repository.UserRepository
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class UsersAdapter (
     var context: Context?,
@@ -30,7 +28,7 @@ class UsersAdapter (
             this.view = v
         }
         fun setTitle (title : String){
-            var txtTitle : MaterialTextView = view.findViewById(R.id.user_item_text)
+            var txtTitle : MaterialTextView = view.findViewById(R.id.course_enrollment_request_text)
             txtTitle.text = title
         }
 
@@ -40,7 +38,7 @@ class UsersAdapter (
         }
 
         fun getCardView () : CardView {
-            return view.findViewById(R.id.user_item)
+            return view.findViewById(R.id.course_enrollment_item)
         }
 
     }

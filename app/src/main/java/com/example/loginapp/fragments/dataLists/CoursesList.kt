@@ -1,11 +1,15 @@
 package com.example.loginapp.fragments.dataLists
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,6 +23,7 @@ import com.example.loginapp.adapter.CourseAdapter
 import com.example.loginapp.models.CourseModel
 import com.example.loginapp.repository.CourseRepository
 import com.example.loginapp.viewmodels.dataLists.CoursesListViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class CoursesList : Fragment() {
     private lateinit var v : View
@@ -28,6 +33,7 @@ class CoursesList : Fragment() {
     private lateinit var courseListRecyclerViewAdapter: CourseAdapter
     private lateinit var addCourseButton: View
     private lateinit var userInfo: SharedPreferences
+    private lateinit var userId: String
     private lateinit var userRole: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,6 +56,7 @@ class CoursesList : Fragment() {
         }
         if(context != null){
             userInfo = context.getSharedPreferences("UserInformation", Context.MODE_PRIVATE)
+            userId = userInfo.getString("UUID","")!!
             userRole = userInfo.getString("ROLE","")!!
         }
 
@@ -57,20 +64,24 @@ class CoursesList : Fragment() {
         courseListRecyclerView.layoutManager  = LinearLayoutManager(context)
         courseListRecyclerViewAdapter = CourseAdapter(context, coursesList) { courseData ->
             courseData?.let {
-//                var detailPageAction = MainMenuDirections.actionFragmentMainMenuToAddCoursePage(courseData)
-//                v.findNavController().navigate(detailPageAction)
+                var detailPageAction = CoursesListDirections.actionCoursesListToCourseDetailsContainer(courseData)
+                v.findNavController().navigate(detailPageAction)
             }
         }
         if(userRole != "Teacher"){
-            addCourseButton.isEnabled = false
-            addCourseButton.isVisible = false
             courseListRecyclerViewAdapter.isDeleteButtonDisabled = true
         }
         courseListRecyclerView.adapter = courseListRecyclerViewAdapter
 
         addCourseButton.setOnClickListener {
-            var addCourseAction = CoursesListDirections.actionCoursesListToAddCoursePage()
-            v.findNavController().navigate(addCourseAction)
+            if(userRole == "Teacher"){
+                var addCourseAction = CoursesListDirections.actionCoursesListToAddCoursePage()
+                v.findNavController().navigate(addCourseAction)
+            }
+            else if(userRole == "Student"){
+                courseJoinRequestDialog()
+            }
+
         }
 
         viewModel.coursesList.observe(viewLifecycleOwner, Observer { result ->
@@ -78,8 +89,35 @@ class CoursesList : Fragment() {
             coursesList.addAll(result)
             courseListRecyclerViewAdapter.notifyDataSetChanged();
         })
-        viewModel.getCourses()
+        viewModel.getCourses(userId, userRole)
 
+        viewModel.joinRequestCorrectlySent.observe(viewLifecycleOwner, Observer { result ->
+            if(result == 0){
+                Snackbar.make(v, "Error during Course request.", Snackbar.LENGTH_SHORT).show()
+            }
+            if(result == 1){
+                Snackbar.make(v, "Successfully requested to join the Course.", Snackbar.LENGTH_SHORT).show()
+            }
+        })
+
+    }
+
+    private fun courseJoinRequestDialog(){
+        val builder: AlertDialog.Builder = android.app.AlertDialog.Builder(context)
+        builder.setTitle("Request to join Course")
+
+        val input = EditText(context)
+        input.hint = "Course Code"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton("Send", DialogInterface.OnClickListener { dialog, which ->
+            var courseCode = input.text.toString()
+            viewModel.sendJoinRequestToCourse(userId, courseCode)
+        })
+        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+
+        builder.show()
     }
 
 }

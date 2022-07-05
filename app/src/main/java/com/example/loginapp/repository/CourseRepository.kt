@@ -23,14 +23,75 @@ class CourseRepository (){
                 document.data["name"] as String,
                 document.data["code"] as String,
                 document.data["icon"] as String,
+                document.data["owner"] as String,
+                document.data["enrollments"] as MutableList<String>,
+                document.data["pendingEnrollments"] as MutableList<String>
             )
             )
         }
         return coursesList
     }
 
+    suspend fun getMyEnrolledCourses (userId: String) : MutableList<CourseModel?>{
+        var query = db.collection("courses").whereArrayContains("enrollments", userId).get()
+        var result = query.await()
+        for (document in result) {
+            coursesList.add(
+                CourseModel(
+                    document.id,
+                    document.data["name"] as String,
+                    document.data["code"] as String,
+                    document.data["icon"] as String,
+                    document.data["owner"] as String,
+                    document.data["enrollments"] as MutableList<String>,
+                    document.data["pendingEnrollments"] as MutableList<String>
+                )
+            )
+        }
+        return coursesList
+    }
+
+    suspend fun getMyCourses (userId: String) : MutableList<CourseModel?>{
+        var query = db.collection("courses").whereEqualTo("owner", userId).get()
+        var result = query.await()
+        for (document in result) {
+            coursesList.add(
+                CourseModel(
+                    document.id,
+                    document.data["name"] as String,
+                    document.data["code"] as String,
+                    document.data["icon"] as String,
+                    document.data["owner"] as String,
+                    document.data["enrollments"] as MutableList<String>,
+                    document.data["pendingEnrollments"] as MutableList<String>
+                )
+            )
+        }
+        return coursesList
+    }
+
+    suspend fun getCourseByCode (courseCode: String) : CourseModel?{
+        var course: CourseModel? = null
+        var query = db.collection("courses").whereEqualTo("code", courseCode).get()
+        var result = query.await()
+        if(!result.isEmpty){
+            var document = result.documents[0]
+            if(document != null){
+                    course = CourseModel(
+                    document.id,
+                    document.data?.get("name") as String,
+                    document.data?.get("code") as String,
+                    document.data?.get("icon") as String,
+                    document.data?.get("owner") as String,
+                    document.data?.get("enrollments") as MutableList<String>,
+                    document.data?.get("pendingEnrollments") as MutableList<String>)
+            }
+        }
+        return course
+    }
+
     suspend fun createCourse(name: String, code: String, icon: String, owner: String): Boolean{
-        var course = CourseDoc(id=null, name = name, code = code, icon = icon, owner = owner)
+        var course = CourseDoc(name = name, code = code, icon = icon, owner = owner)
         var result = false
         try {
             var query = db.collection("courses").add(course)
@@ -38,6 +99,32 @@ class CourseRepository (){
             result = true
         }catch (e: Exception) {
             Log.d("Create Course action: ", e.message!!)
+        }
+        return result
+    }
+
+    suspend fun updateCoursePendingEnrollments(courseModel: CourseModel): Boolean{
+        var result = false
+        try {
+            var query = db.collection("courses").document(courseModel.id).update(
+                mapOf("pendingEnrollments" to courseModel.pendingEnrollments ))
+            query.await()
+            result = true
+        }catch (e: Exception) {
+            Log.d("Update Course action: ", e.message!!)
+        }
+        return result
+    }
+
+    suspend fun updateCourseEnrollments(courseModel: CourseModel): Boolean{
+        var result = false
+        try {
+            var query = db.collection("courses").document(courseModel.id).update(
+                mapOf("enrollments" to courseModel.enrollments ))
+            query.await()
+            result = true
+        }catch (e: Exception) {
+            Log.d("Update Course action: ", e.message!!)
         }
         return result
     }
@@ -55,25 +142,4 @@ class CourseRepository (){
         return result
     }
 
-//    fun getCourses () : MutableList<Course?>{
-//        var result = courseDao.getAll()
-//        if(result == null){
-//            result = mutableListOf()
-//        }
-//        return result
-//    }
-//
-//
-//    fun updateCourse(id: Int, name: String, icon: String){
-//        var course: Course = Course(id = id, name = name, icon = icon)
-//        courseDao.update(course)
-//    }
-//
-//    fun deleteCourseByID(id: Int){
-//        courseDao.deleteByID(id)
-//    }
-//
-//    fun deleteAllUsers(){
-//        courseDao.deleteAll()
-//    }
 }

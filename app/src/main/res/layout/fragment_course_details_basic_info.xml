@@ -7,18 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.userDetails.BasicInfo">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/user_details_save_button"
-        android:layout_width="123dp"
-        android:layout_height="57dp"
-        android:text="Save"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_detail_owner_card" />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/course_detail_name_card"
         android:layout_width="match_parent"
@@ -40,32 +28,19 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp">
 
-            <EditText
+            <TextView
                 android:id="@+id/course_detail_name"
-                android:layout_width="309dp"
-                android:layout_height="47dp"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
                 android:ems="10"
-                android:hint="Name"
+                android:hint="Course Name"
                 android:inputType="text"
+                android:textAlignment="center"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.529"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="42dp"
-                android:layout_height="45dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/ic_baseline_account_circle_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/course_detail_name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -92,46 +67,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/course_detail_name_card">
 
-            <EditText
+            <TextView
                 android:id="@+id/course_detail_code"
-                android:layout_width="327dp"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
                 android:ems="10"
-                android:hint="Email"
+                android:hint="Course Code"
                 android:inputType="textEmailAddress"
+                android:textAlignment="center"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.695" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="37dp"
-                android:layout_height="33dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginStart="10dp"
-                android:src="@android:drawable/sym_action_email"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/course_detail_code"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.511" />
+                app:layout_constraintVertical_bias="0.516" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/course_detail_owner_card"
         android:layout_width="match_parent"
-        android:layout_height="73dp"
+        android:layout_height="75dp"
         android:layout_margin="8dp"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
         app:cardBackgroundColor="#6197AC"
         app:cardElevation="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/user_details_save_button"
+        app:layout_constraintBottom_toTopOf="@+id/course_detail_link_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/course_detail_code_card">
@@ -142,30 +107,84 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <EditText
+            <TextView
                 android:id="@+id/course_detail_owner"
-                android:layout_width="324dp"
-                android:layout_height="48dp"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
                 android:ems="10"
-                android:hint="Phone"
+                android:hint="Owner"
                 android:inputType="phone"
+                android:textAlignment="viewStart"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
+                android:id="@+id/imageView2"
+                android:layout_width="42dp"
+                android:layout_height="45dp"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginStart="10dp"
-                android:src="@android:drawable/ic_menu_call"
+                android:src="@drawable/ic_baseline_account_circle_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/course_detail_owner"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/course_detail_link_card"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_margin="8dp"
+        android:layout_marginTop="103dp"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#6197AC"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/course_detail_owner_card">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/course_detail_link"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Course Link"
+                android:inputType="phone"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/course_detail_link_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.533" />
+
+            <ImageView
+                android:id="@+id/course_detail_link_image"
+                android:layout_width="42dp"
+                android:layout_height="45dp"
+                android:layout_marginHorizontal="10dp"
+                android:src="@drawable/ic_baseline_account_circle_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/course_detail_link"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
