@@ -61,19 +61,18 @@ class CourseDetailsContainer :Fragment() {
             userId = userInfo.getString("UUID","")!!
             userRole = userInfo.getString("ROLE","")!!
         }
-        viewPager.adapter = ViewPagerAdapter(requireActivity(), course)
+        viewPager.adapter = ViewPagerAdapter(requireActivity(), course, userRole)
         TabLayoutMediator(tabLayout, viewPager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
             if(userRole == "Student"){
                 when (position) {
                     0 -> tab.text = "Information"
-                    1 -> tab.text = "Enrollment Requests"
+//                    1 -> tab.text = "Enrollment Requests"
                     else -> tab.text = "undefined"
                 }
             }
             if(userRole == "Teacher"){
                 when (position) {
                     0 -> tab.text = "Information"
-//                    2 -> tab.text = "Files"
                     1 -> tab.text = "Enrollment Requests"
                     else -> tab.text = "undefined"
                 }
@@ -83,13 +82,13 @@ class CourseDetailsContainer :Fragment() {
     }
 
 
-    class ViewPagerAdapter(fragmentActivity: FragmentActivity, course: CourseModel) : FragmentStateAdapter(fragmentActivity) {
+    class ViewPagerAdapter(fragmentActivity: FragmentActivity, course: CourseModel, userRole: String) : FragmentStateAdapter(fragmentActivity) {
         var course: CourseModel = course
+        var userRole: String = userRole
         override fun createFragment(position: Int): Fragment {
 
             return when(position){
                 0 -> CourseBasicInfo(course)
-//                2 -> CourseFilesInfo(course)
                 1 -> CourseEnrollmentRequests(course)
 
                 else -> CourseBasicInfo(course)
@@ -97,7 +96,11 @@ class CourseDetailsContainer :Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return TAB_COUNT
+            var tabCount = 1
+            if(userRole == "Teacher"){
+                tabCount = 2
+            }
+            return tabCount
         }
 
         companion object {
