@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.loginapp.R
@@ -22,10 +23,9 @@ class BasicInfo(user: UserModel) : Fragment() {
     private val viewModel: BasicInfoViewModel by viewModels()
     private lateinit var v: View
     var user : UserModel = user
-    lateinit var name: EditText
-    lateinit var email: EditText
-    lateinit var phone: EditText
-    lateinit var saveButton: Button
+    lateinit var name: TextView
+    lateinit var email: TextView
+    lateinit var phone: TextView
     private lateinit var userRepository: UserRepository
 
     override fun onCreateView(
@@ -36,7 +36,6 @@ class BasicInfo(user: UserModel) : Fragment() {
         name = v.findViewById(R.id.course_detail_name)
         email = v.findViewById(R.id.course_detail_code)
         phone = v.findViewById(R.id.course_detail_owner)
-        saveButton = v.findViewById(R.id.user_details_save_button)
         return v
     }
 
@@ -47,10 +46,6 @@ class BasicInfo(user: UserModel) : Fragment() {
         email.setText(user.email.toString())
         phone.setText(user.phone.toString())
 
-            saveButton.setOnClickListener {
-                viewModel.updateUser(user);
-                findNavController().popBackStack()
-            }
     }
 
 }

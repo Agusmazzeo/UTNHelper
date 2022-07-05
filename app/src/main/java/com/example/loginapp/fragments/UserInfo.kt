@@ -13,21 +13,26 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.loginapp.R
 import com.example.loginapp.activities.MainActivity
 import com.example.loginapp.database.AppDatabase
 import com.example.loginapp.repository.UserRepository
+import com.example.loginapp.viewmodels.UserInfoViewModel
 
 class UserInfo : Fragment() {
     private lateinit var v : View
     private lateinit var name_view : EditText
     private lateinit var email_view : EditText
     private lateinit var phone_view: EditText
+    private var userId: String? = ""
     private lateinit var save_button: Button
     private lateinit var settings_button: Button
     private lateinit var image_view: ImageView
+    private val viewModel: UserInfoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,9 +63,14 @@ class UserInfo : Fragment() {
             activity.setTitleText("User Information")
         }
 
-        name_view.setText(sharedPref.getString("UserName","")!!)
-        email_view.setText(sharedPref.getString("UserEmail","")!!)
-        phone_view.setText(sharedPref.getString("UserPhone","")!!)
+        userId = sharedPref.getString("UUID", "")
+        name_view.setText(sharedPref.getString("NAME","")!!)
+        email_view.setText(sharedPref.getString("EMAIL","")!!)
+        phone_view.setText(sharedPref.getString("PHONE","")!!)
+        var userImage = sharedPref.getString("ICON","")
+        if(userImage != ""){
+            Glide.with(context!!).load(userImage).into(image_view)
+        }
 
         image_view.setOnClickListener{
 
@@ -71,10 +81,13 @@ class UserInfo : Fragment() {
             var new_email = email_view.text.toString()
             var new_phone = phone_view.text.toString()
 
-            if(new_name != "" && (new_email != "" || new_phone != "")){
-                editor.putString("UserName", new_name)
-                editor.putString("UserEmail", new_email)
-                editor.putString("UserPhone", new_phone)
+            if(new_name != "" && new_email != "" && new_phone != ""){
+                editor.putString("NAME", new_name)
+                editor.putString("EMAIL", new_email)
+                editor.putString("PHONE", new_phone)
+                if(userId!=null){
+                    viewModel.updateUser(userId!!, new_name, new_email, new_phone)
+                }
                 editor.apply()
                 findNavController().popBackStack()
             }

@@ -47,6 +47,16 @@ class UserRepository (){
         }
     }
 
+    suspend fun updateUser(id: String, name: String, email: String, phone: String){
+        try {
+            var updateQuery = db.collection("users").document(id).update(mapOf("name" to name, "email" to email, "phone" to phone))
+            var result = updateQuery.await()
+
+        }catch (e: Exception) {
+            Log.d("Update User action: ", e.message!!)
+        }
+    }
+
     suspend fun createUser(id: String, name: String, email: String, phone: String, role: String, icon: String): Boolean{
         var user = UserDoc(name, email, phone, role, icon)
         var result = false

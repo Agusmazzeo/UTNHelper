@@ -10,8 +10,9 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/CreateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="123dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="#000000"
         android:text="Create User"
         android:textColor="#FBFBFB"
@@ -47,8 +48,9 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/LoginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="123dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="#020202"
         android:shadowColor="#FFFFFF"
         android:text="Login"

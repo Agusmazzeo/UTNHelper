@@ -61,6 +61,10 @@ class LoginViewModel (app: Application) : AndroidViewModel(app){
                 with(userInfo.edit()) {
                     putString("UUID", userId)
                     putString("ROLE", user.role)
+                    putString("NAME", user.name)
+                    putString("PHONE", user.phone)
+                    putString("EMAIL", user.email)
+                    putString("ICON", user.icon)
                     apply()
                     successLogin.value = true
                 }
