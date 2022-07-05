@@ -24,6 +24,7 @@ class CourseBasicInfo(course: CourseModel) : Fragment() {
     lateinit var name: TextView
     lateinit var code: TextView
     lateinit var owner: TextView
+    lateinit var link: TextView
     private val viewModel: CourseBasicInfoViewModel by viewModels()
 
     override fun onCreateView(
@@ -34,6 +35,7 @@ class CourseBasicInfo(course: CourseModel) : Fragment() {
         name = v.findViewById(R.id.course_detail_name)
         code = v.findViewById(R.id.course_detail_code)
         owner = v.findViewById(R.id.course_detail_owner)
+        link = v.findViewById(R.id.course_detail_link)
         return v
     }
 
@@ -43,6 +45,7 @@ class CourseBasicInfo(course: CourseModel) : Fragment() {
         viewModel.getCourseOwnerName(course)
         name.text = course.name.toString()
         code.text = course.code.toString()
+        link.text = course.classLink.toString()
 
         viewModel.ownerName.observe(viewLifecycleOwner, Observer { result: String ->
             if(result != null){

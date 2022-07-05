@@ -10,6 +10,7 @@ class CourseModel (
     var code : String,
     var icon : String,
     var owner: String,
+    var classLink: String,
     var enrollments: MutableList<String>,
     var pendingEnrollments: MutableList<String>
     ):
@@ -21,6 +22,7 @@ class CourseModel (
         this.code = code
         this.icon = icon
         this.owner = owner
+        this.classLink = classLink
         this.enrollments = enrollments
         this.pendingEnrollments = pendingEnrollments
     }

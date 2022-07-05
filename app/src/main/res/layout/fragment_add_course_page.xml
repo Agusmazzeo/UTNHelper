@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,7 +28,7 @@
         android:ems="10"
         android:hint="Code"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/btn_reset"
+        app:layout_constraintBottom_toTopOf="@+id/new_course_link"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,29 +47,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/course_image_view" />
 
+    <EditText
+        android:id="@+id/new_course_link"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:ems="10"
+        android:hint="Class Link"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_course_code" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_reset"
         android:layout_width="123dp"
         android:layout_height="57dp"
         android:layout_marginBottom="5dp"
+        android:backgroundTint="#000000"
         android:text="Reset"
         android:textAllCaps="false"
+        android:textColor="#FBFBFB"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_submit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_course_code" />
+        app:layout_constraintTop_toBottomOf="@+id/new_course_link" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_submit"
-        android:layout_width="124dp"
-        android:layout_height="53dp"
+        android:layout_width="123dp"
+        android:layout_height="57dp"
         android:layout_marginBottom="5dp"
+        android:backgroundTint="#000000"
         android:text="Create"
         android:textAllCaps="false"
+        android:textColor="#FBFBFB"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_reset"
-        app:layout_constraintTop_toBottomOf="@+id/new_course_code" />
+        app:layout_constraintTop_toBottomOf="@+id/new_course_link" />
 
     <ImageView
         android:id="@+id/course_image_view"
@@ -73,3 +104,5 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</ScrollView>

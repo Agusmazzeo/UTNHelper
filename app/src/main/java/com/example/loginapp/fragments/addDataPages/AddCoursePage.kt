@@ -31,6 +31,7 @@ class AddCoursePage : Fragment() {
     private val viewModel: AddCourseViewModel by viewModels()
     private lateinit var course_image: ImageView
     private lateinit var nameView : EditText
+    private lateinit var linkView : EditText
     private lateinit var codeView : EditText
     private lateinit var reset_button: Button
     private lateinit var submit_button: Button
@@ -50,6 +51,7 @@ class AddCoursePage : Fragment() {
         submit_button = v.findViewById(R.id.btn_submit)
         nameView = v.findViewById(R.id.new_course_name)
         codeView = v.findViewById(R.id.new_course_code)
+        linkView = v.findViewById(R.id.new_course_link)
 
         activityResult = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()) { result ->
@@ -87,7 +89,8 @@ class AddCoursePage : Fragment() {
         submit_button.setOnClickListener {
             var name = nameView.text.toString()
             var code = codeView.text.toString()
-            viewModel.createCourse(userId, name, code){
+            var classLink = linkView.text.toString()
+            viewModel.createCourse(userId, name, code, classLink){
                 findNavController().popBackStack()
             }
 

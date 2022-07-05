@@ -24,6 +24,7 @@ class CourseRepository (){
                 document.data["code"] as String,
                 document.data["icon"] as String,
                 document.data["owner"] as String,
+                document.data?.getOrDefault("link", "") as String,
                 document.data["enrollments"] as MutableList<String>,
                 document.data["pendingEnrollments"] as MutableList<String>
             )
@@ -43,6 +44,7 @@ class CourseRepository (){
                     document.data["code"] as String,
                     document.data["icon"] as String,
                     document.data["owner"] as String,
+                    document.data?.getOrDefault("link", "") as String,
                     document.data["enrollments"] as MutableList<String>,
                     document.data["pendingEnrollments"] as MutableList<String>
                 )
@@ -62,6 +64,7 @@ class CourseRepository (){
                     document.data["code"] as String,
                     document.data["icon"] as String,
                     document.data["owner"] as String,
+                    document.data?.getOrDefault("link", "") as String,
                     document.data["enrollments"] as MutableList<String>,
                     document.data["pendingEnrollments"] as MutableList<String>
                 )
@@ -83,6 +86,7 @@ class CourseRepository (){
                     document.data?.get("code") as String,
                     document.data?.get("icon") as String,
                     document.data?.get("owner") as String,
+                    document.data?.getOrDefault("link", "") as String,
                     document.data?.get("enrollments") as MutableList<String>,
                     document.data?.get("pendingEnrollments") as MutableList<String>)
             }
@@ -90,8 +94,8 @@ class CourseRepository (){
         return course
     }
 
-    suspend fun createCourse(name: String, code: String, icon: String, owner: String): Boolean{
-        var course = CourseDoc(name = name, code = code, icon = icon, owner = owner)
+    suspend fun createCourse(name: String, code: String, icon: String, owner: String, classLink: String): Boolean{
+        var course = CourseDoc(name = name, code = code, icon = icon, owner = owner, link = classLink)
         var result = false
         try {
             var query = db.collection("courses").add(course)

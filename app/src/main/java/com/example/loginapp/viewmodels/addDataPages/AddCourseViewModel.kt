@@ -36,12 +36,12 @@ class AddCourseViewModel (app: Application) : AndroidViewModel(app){
         }
     }
 
-    fun createCourse(userId: String, name: String, code: String, callback: ()->Unit){
+    fun createCourse(userId: String, name: String, code: String, classLink: String, callback: ()->Unit){
         if(name != "" && code != "" && courseImageUri.value != null && userId != "") {
             viewModelScope.launch {
                 var courseImageUrlTask = async{storageHandler.saveCourseImage(name, courseImageUri.value!!)}
                 var courseImageUrl = courseImageUrlTask.await()
-                var courseCreateResult = async{ courseRepository.createCourse(name, code, courseImageUrl.toString(), userId) }
+                var courseCreateResult = async{ courseRepository.createCourse(name, code, courseImageUrl.toString(), userId, classLink) }
                 if(courseCreateResult.await()) {
                     callback()
                 }
