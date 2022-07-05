@@ -5,9 +5,11 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -33,6 +35,7 @@ var onClick : (CourseModel) -> Unit
 
     private var courseRepository = CourseRepository()
     private var storageHandler = StorageHandler()
+    var isDeleteButtonDisabled = false
 
     class CourseHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View
@@ -58,6 +61,12 @@ var onClick : (CourseModel) -> Unit
         fun getDeleteButtonView(): ImageButton {
             return view.findViewById(R.id.delete_course_button)
         }
+
+        fun disableDeleteButton(){
+            var deleteButton: ImageButton = view.findViewById(R.id.delete_course_button)
+            deleteButton.isEnabled = false
+            deleteButton.isVisible = false
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseHolder {
@@ -71,6 +80,9 @@ var onClick : (CourseModel) -> Unit
             course?.let {
                 holder.setTitle(it.name)
                 holder.setCourseImage(it.icon)
+                if(isDeleteButtonDisabled){
+                    holder.disableDeleteButton()
+                }
             }
             holder.getCardView().setOnClickListener {
                 course?.let {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -25,9 +26,9 @@ class CoursesList : Fragment() {
     private var coursesList: MutableList<CourseModel?> = mutableListOf()
     private lateinit var courseListRecyclerView : RecyclerView
     private lateinit var courseListRecyclerViewAdapter: CourseAdapter
-    private lateinit var courseRepository: CourseRepository
-    private lateinit var name: String
     private lateinit var addCourseButton: View
+    private lateinit var userInfo: SharedPreferences
+    private lateinit var userRole: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -47,8 +48,10 @@ class CoursesList : Fragment() {
         if (activity != null) {
             activity.setTitleText("Courses List")
         }
-
-        name = sharedPref.getString("UserName","default")!!
+        if(context != null){
+            userInfo = context.getSharedPreferences("UserInformation", Context.MODE_PRIVATE)
+            userRole = userInfo.getString("ROLE","")!!
+        }
 
         courseListRecyclerView.setHasFixedSize(true)
         courseListRecyclerView.layoutManager  = LinearLayoutManager(context)
@@ -57,6 +60,11 @@ class CoursesList : Fragment() {
 //                var detailPageAction = MainMenuDirections.actionFragmentMainMenuToAddCoursePage(courseData)
 //                v.findNavController().navigate(detailPageAction)
             }
+        }
+        if(userRole != "Teacher"){
+            addCourseButton.isEnabled = false
+            addCourseButton.isVisible = false
+            courseListRecyclerViewAdapter.isDeleteButtonDisabled = true
         }
         courseListRecyclerView.adapter = courseListRecyclerViewAdapter
 

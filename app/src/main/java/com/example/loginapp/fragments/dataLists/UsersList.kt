@@ -52,6 +52,13 @@ class UsersList : Fragment() {
             userId = userInfo.getString("UUID","")!!
             userRole = userInfo.getString("ROLE","")!!
         }
+        if (activity != null) {
+            when(userRole){
+                "Student" -> activity.setTitleText("Teachers List")
+                "Teacher" -> activity.setTitleText("Students List")
+            }
+            viewModel.populateDataByUserRole(userId, userRole)
+        }
 
 
         userListRecyclerView.setHasFixedSize(true)
@@ -71,32 +78,5 @@ class UsersList : Fragment() {
                 userListReciclerViewAdapter.notifyDataSetChanged();
             }
         })
-
-        viewModel.currentUser.observe(viewLifecycleOwner, Observer { result ->
-            with (userInfo.edit()) {
-                putString("ROLE", result.role)
-                apply()
-                if (activity != null) {
-                    when(result.role){
-                        "Student" -> activity.setTitleText("Teachers List")
-                        "Teacher" -> activity.setTitleText("Students List")
-                    }
-                    viewModel.populateDataByUserRole(userId, result.role)
-                }
-            }
-        })
-
-        if(userRole.isEmpty()){
-            viewModel.getCurrentUserById(userId)
-        }
-        else{
-            if (activity != null) {
-                when(userRole){
-                    "Student" -> activity.setTitleText("Teachers List")
-                    "Teacher" -> activity.setTitleText("Students List")
-                }
-            }
-            viewModel.populateDataByUserRole(userId, userRole)
-        }
     }
 }

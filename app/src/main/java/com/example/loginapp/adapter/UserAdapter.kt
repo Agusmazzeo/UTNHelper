@@ -1,12 +1,15 @@
 package com.example.loginapp.adapter
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.textview.MaterialTextView
 import com.example.loginapp.R
 import com.example.loginapp.models.UserModel
@@ -31,13 +34,15 @@ class UsersAdapter (
             txtTitle.text = title
         }
 
+        fun setUserImage(image_uri: String){
+            var image_view: ImageView = view.findViewById(R.id.user_item_image)
+            Glide.with(view).load(Uri.parse(image_uri)).into(image_view)
+        }
+
         fun getCardView () : CardView {
             return view.findViewById(R.id.user_item)
         }
 
-        fun getDeleteButtonView() : ImageButton {
-            return view.findViewById(R.id.delete_item_button)
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserHolder {
@@ -47,34 +52,15 @@ class UsersAdapter (
 
     override fun onBindViewHolder(holder: UserHolder, position: Int) {
         var user: UserModel? = userList[position]
-        user?.let { holder.setTitle(it.name) }
+        user?.let {
+            holder.setTitle(it.name)
+            holder.setUserImage(it.icon)
+        }
         holder.getCardView().setOnClickListener {
             user?.let{
                 var userData = UserModel(user.id, user.name, user.email, user.phone, user.role, user.icon)
                 onClick(userData)
             }
-        }
-        holder.getDeleteButtonView().setOnClickListener{
-            if(context != null){
-                MaterialAlertDialogBuilder(context!!)
-                .setTitle("Delete User?")
-                .setNegativeButton("Cancel") { dialog, which ->
-                // Respond to negative button press
-                }.setPositiveButton("Delete") { dialog, which ->
-//                        userRepository = UserRepository(UserDaoFB())
-//                    val db = AppDatabase.getAppDataBase(context!!)
-//                    if (db != null) {
-//                        userRepository = UserRepository(db.userDao())
-//                    }
-                    user?.let{
-//                        userRepository.deleteUserByID(user.id)
-//                        userList.removeAt(position)
-//                        notifyItemRemoved(position)
-//                        notifyItemRangeChanged(position,userList.size)
-                    }
-                }.show()
-            }
-
         }
     }
 
