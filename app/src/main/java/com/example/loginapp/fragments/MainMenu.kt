@@ -8,6 +8,7 @@ import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -40,7 +41,7 @@ class MainMenu : Fragment() {
         tabLayout = v.findViewById(R.id.main_menu_tab_layout)
 
         viewPager = v.findViewById(R.id.main_menu_view_pager)
-
+        
         return v
     }
 

@@ -1,6 +1,7 @@
 package com.example.loginapp.utils
 
 import android.util.Log
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -20,25 +21,23 @@ class AuthHandler {
         }
     }
 
-    suspend fun createUserWithEmailAndPassword(email: String, password: String):Boolean{
+    suspend fun createUserWithEmailAndPassword(email: String, password: String):AuthResult?{
         return try {
             var userCreate = auth.createUserWithEmailAndPassword(email, password)
             userCreate.await()
-            true
         }catch (e: Exception){
             Log.d("Error during User account creation: ", e.message!!)
-            false
+            null
         }
     }
 
-    suspend fun signInWithEmailAndPassword(email: String, password: String):Boolean{
+    suspend fun signInWithEmailAndPassword(email: String, password: String):AuthResult?{
         return try {
             var userCreate = auth.signInWithEmailAndPassword(email, password)
             userCreate.await()
-            true
         }catch (e: Exception){
             Log.d("Error during User account sign in: ", e.message!!)
-            false
+            null
         }
     }
 

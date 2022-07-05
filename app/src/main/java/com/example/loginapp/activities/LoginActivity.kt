@@ -19,6 +19,8 @@ import com.example.loginapp.viewmodels.LoginActivityViewModel
  */
 class LoginActivity : AppCompatActivity() {
 
+    private val viewModel: LoginActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -26,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
     }
 
     public fun openGalleryForImage(activityResult: ActivityResultLauncher<Intent>, context: Context) {

@@ -2,6 +2,7 @@ package com.example.loginapp.fragments.addDataPages
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,8 @@ class AddCoursePage : Fragment() {
     private lateinit var reset_button: Button
     private lateinit var submit_button: Button
     private lateinit var activityResult: ActivityResultLauncher<Intent>
+    private lateinit var userInfo: SharedPreferences
+    private lateinit var userId: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,11 +63,16 @@ class AddCoursePage : Fragment() {
         super.onStart()
         val context = context
 
+        if(context != null){
+            userInfo = context.getSharedPreferences("UserInformation", Context.MODE_PRIVATE)
+            userId = userInfo.getString("UUID","")!!
+        }
         val activity = (activity as MainActivity)
 
         if (activity != null) {
             activity.setTitleText("Add Course")
         }
+
 
         viewModel.courseImageUri.observe(viewLifecycleOwner, Observer { result ->
             Glide.with(context!!).load(result).into(course_image)
@@ -79,7 +87,7 @@ class AddCoursePage : Fragment() {
         submit_button.setOnClickListener {
             var name = nameView.text.toString()
             var code = codeView.text.toString()
-            viewModel.createCourse(name, code){
+            viewModel.createCourse(userId, name, code){
                 findNavController().popBackStack()
             }
 

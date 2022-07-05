@@ -29,8 +29,8 @@ class CourseRepository (){
         return coursesList
     }
 
-    suspend fun createCourse(name: String, code: String, icon: String): Boolean{
-        var course = CourseDoc(id=null, name = name, code = code, icon = icon)
+    suspend fun createCourse(name: String, code: String, icon: String, owner: String): Boolean{
+        var course = CourseDoc(id=null, name = name, code = code, icon = icon, owner = owner)
         var result = false
         try {
             var query = db.collection("courses").add(course)

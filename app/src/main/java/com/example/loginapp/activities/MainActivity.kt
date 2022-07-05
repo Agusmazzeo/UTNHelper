@@ -6,17 +6,16 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.loginapp.R
 import com.example.loginapp.utils.AuthHandler
+import com.example.loginapp.viewmodels.MainActivityViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,39 +24,26 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var textColor : String
     private lateinit var backgroundColor : String
-    private lateinit var userInfo: SharedPreferences
-    private var auth: FirebaseAuth = Firebase.auth
+    private lateinit var settings: SharedPreferences
+    private val viewModel: MainActivityViewModel by viewModels()
     val REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sharedPref: SharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        userInfo = getSharedPreferences("User", Context.MODE_PRIVATE)
+        settings = getSharedPreferences("Settings", Context.MODE_PRIVATE)
+
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         appTitleView = findViewById(R.id.app_title)
         bottonNavigationView = findViewById(R.id.bottom_navigation)
-        setUpColors(sharedPref)
+        setUpColors(settings)
         NavigationUI.setupWithNavController(bottonNavigationView, navHostFragment.navController)
     }
 
     public override fun onStart() {
         super.onStart()
-            AuthHandler().checkUserIsAuthenticated(
-                onSuccessCallback={
-                    with (userInfo.edit()) {
-                        putString("UUID", it.uid)
-                        apply()
-                    }
-                },
-                onErrorCallback={
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            )
     }
 
     public fun setTitleText(title: String){

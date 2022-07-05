@@ -28,15 +28,15 @@ class UsersList : Fragment() {
     private var usersList: MutableList<UserModel?> = mutableListOf()
     private lateinit var userListRecyclerView : RecyclerView
     private lateinit var userListReciclerViewAdapter: UsersAdapter
-    private lateinit var name: String
-    private lateinit var addUserButton: View
+    private lateinit var userInfo: SharedPreferences
+    private lateinit var userId: String
+    private lateinit var userRole: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_users_list, container, false)
 
         userListRecyclerView = v.findViewById(R.id.UserListRecyclerView)
-        addUserButton = v.findViewById(R.id.addUserButton)
 
         return v
     }
@@ -44,14 +44,16 @@ class UsersList : Fragment() {
     override fun onStart() {
         super.onStart()
         val context = requireContext()
-        val sharedPref: SharedPreferences = context.getSharedPreferences("UserInformation", Context.MODE_PRIVATE)
 
         val activity = (activity as MainActivity)
-        if (activity != null) {
-            activity.setTitleText("Users List")
+
+        if(context != null){
+            userInfo = context.getSharedPreferences("UserInformation", Context.MODE_PRIVATE)
+            userId = userInfo.getString("UUID","")!!
+            userRole = userInfo.getString("ROLE","")!!
         }
 
-        name = sharedPref.getString("UserName","default")!!
+
         userListRecyclerView.setHasFixedSize(true)
         userListRecyclerView.layoutManager  = LinearLayoutManager(context)
         userListReciclerViewAdapter= UsersAdapter(context, usersList) { userData ->
@@ -60,16 +62,41 @@ class UsersList : Fragment() {
                 v.findNavController().navigate(detailPageAction)
             }
         }
+
         userListRecyclerView.adapter = userListReciclerViewAdapter
-//        addUserButton.setOnClickListener {
-//            var addUserAction = UsersListDirections.actionUsersListToAddUserPage()
-//            v.findNavController().navigate(addUserAction)
-//        }
         viewModel.usersList.observe(viewLifecycleOwner, Observer { result ->
-            usersList.clear()
-            usersList.addAll(result)
-            userListReciclerViewAdapter.notifyDataSetChanged();
+            if(result != null){
+                usersList.clear()
+                usersList.addAll(result)
+                userListReciclerViewAdapter.notifyDataSetChanged();
+            }
         })
-        viewModel.getUsers()
+
+        viewModel.currentUser.observe(viewLifecycleOwner, Observer { result ->
+            with (userInfo.edit()) {
+                putString("ROLE", result.role)
+                apply()
+                if (activity != null) {
+                    when(result.role){
+                        "Student" -> activity.setTitleText("Teachers List")
+                        "Teacher" -> activity.setTitleText("Students List")
+                    }
+                    viewModel.populateDataByUserRole(userId, result.role)
+                }
+            }
+        })
+
+        if(userRole.isEmpty()){
+            viewModel.getCurrentUserById(userId)
+        }
+        else{
+            if (activity != null) {
+                when(userRole){
+                    "Student" -> activity.setTitleText("Teachers List")
+                    "Teacher" -> activity.setTitleText("Students List")
+                }
+            }
+            viewModel.populateDataByUserRole(userId, userRole)
+        }
     }
 }

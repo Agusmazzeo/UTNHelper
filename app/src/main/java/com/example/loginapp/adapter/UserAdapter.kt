@@ -50,7 +50,7 @@ class UsersAdapter (
         user?.let { holder.setTitle(it.name) }
         holder.getCardView().setOnClickListener {
             user?.let{
-                var userData = UserModel(user.id, user.name, user.email, user.phone)
+                var userData = UserModel(user.id, user.name, user.email, user.phone, user.role, user.icon)
                 onClick(userData)
             }
         }

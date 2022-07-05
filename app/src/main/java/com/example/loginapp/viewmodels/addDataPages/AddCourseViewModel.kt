@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResult
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.loginapp.models.UserModel
 import com.example.loginapp.repository.CourseRepository
 import com.example.loginapp.utils.StorageHandler
 import kotlinx.coroutines.async
@@ -21,6 +22,7 @@ class AddCourseViewModel (app: Application) : AndroidViewModel(app){
     private var context = getApplication<Application>().applicationContext
     private lateinit var imageUri: Uri
     var courseImageUri = MutableLiveData<Uri>()
+    var currentUser = MutableLiveData<UserModel>()
 
 
     fun loadCourseImage(result: ActivityResult){
@@ -34,12 +36,12 @@ class AddCourseViewModel (app: Application) : AndroidViewModel(app){
         }
     }
 
-    fun createCourse(name: String, code: String, callback: ()->Unit){
-        if(name != "" && code != "" && courseImageUri.value != null) {
+    fun createCourse(userId: String, name: String, code: String, callback: ()->Unit){
+        if(name != "" && code != "" && courseImageUri.value != null && userId != "") {
             viewModelScope.launch {
                 var courseImageUrlTask = async{storageHandler.saveCourseImage(name, courseImageUri.value!!)}
                 var courseImageUrl = courseImageUrlTask.await()
-                var courseCreateResult = async{courseRepository.createCourse(name, code, courseImageUrl.toString())}
+                var courseCreateResult = async{ courseRepository.createCourse(name, code, courseImageUrl.toString(), userId) }
                 if(courseCreateResult.await()) {
                     callback()
                 }

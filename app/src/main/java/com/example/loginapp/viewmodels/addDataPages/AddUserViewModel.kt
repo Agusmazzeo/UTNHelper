@@ -45,12 +45,15 @@ class AddUserViewModel (app: Application) : AndroidViewModel(app){
             viewModelScope.launch {
                 var userAuthCreate = async { authHandler.createUserWithEmailAndPassword(new_email, new_password) }
                 var userAuthCreateResult = userAuthCreate.await()
-                if(userAuthCreateResult){
+                if(userAuthCreateResult != null){
                     var userImageUrlTask = async{storageHandler.saveUserImage(new_name, userImageUri.value!!)}
                     var userImageUrl = userImageUrlTask.await()
-                    var userCreate = async { userRepository.createUser(new_name, new_email, new_phone, new_role, userImageUrl.toString())}
+                    var userCreate = async { userAuthCreateResult.user?.let {
+                        userRepository.createUser(
+                            it.uid,new_name, new_email, new_phone, new_role, userImageUrl.toString())
+                    } }
                     var userCreateResult = userCreate.await()
-                    if(userCreateResult){
+                    if(userCreateResult == true){
                         callback()
                     }
                 }
